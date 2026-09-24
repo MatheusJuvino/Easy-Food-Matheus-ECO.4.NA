@@ -34,17 +34,20 @@ body {
 }
 
 .logo {
-  width: 46px;
-  height: 46px;
+  width: 56px;
+  height: 56px;
   border-radius: 14px;
-  background: linear-gradient(180deg, #e8914f, #d97941);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  overflow: hidden;
+  display: block;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .topo h1 {
