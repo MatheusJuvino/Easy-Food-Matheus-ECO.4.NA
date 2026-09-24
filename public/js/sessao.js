@@ -86,21 +86,38 @@ function escaparHtml(texto) {
     .replace(/"/g, "&quot;");
 }
 
+function classeCategoria(cat) {
+  const c = String(cat || "").toLowerCase();
+  if (c.indexOf("pizza") !== -1) return "tom-pizza";
+  if (c.indexOf("japon") !== -1 || c.indexOf("sushi") !== -1) return "tom-sushi";
+  if (c.indexOf("bar") !== -1) return "tom-bar";
+  return "tom-padrao";
+}
+
+function iconeCategoria(cat) {
+  const c = String(cat || "").toLowerCase();
+  if (c.indexOf("pizza") !== -1) return "🍕";
+  if (c.indexOf("japon") !== -1 || c.indexOf("sushi") !== -1) return "🍣";
+  if (c.indexOf("bar") !== -1) return "🍺";
+  return "🍽️";
+}
+
 function cardRestaurante(item) {
-  const local = [item.endereco, item.bairro, item.cidade].filter(Boolean).join(" — ") || "Endereço não informado";
+  const local = [item.endereco, item.bairro, item.cidade].filter(Boolean).join(" · ") || "Endereço não informado";
   const distancia =
-    item.distanciaKm == null ? "" : "<small>" + Number(item.distanciaKm).toFixed(1) + " km de você</small>";
+    item.distanciaKm == null ? "" : " · " + Number(item.distanciaKm).toFixed(1) + " km";
 
   return (
-    '<article class="card-restaurante">' +
-    '<span class="card-id">' + escaparHtml(item.id) + "</span>" +
-    "<div><strong>" + escaparHtml(item.name) + "</strong><small>" +
-    escaparHtml(item.category || "Sem categoria") + " · " + escaparHtml(local) +
-    "</small>" +
-    distancia +
-    "</div>" +
+    '<article class="card-place">' +
+    '<div class="card-capa ' + classeCategoria(item.category) + '">' +
+    '<span>' + iconeCategoria(item.category) + "</span>" +
     '<span class="nota">★ ' + formatarNota(item.rating) + "</span>" +
-    "</article>"
+    "</div>" +
+    '<div class="card-corpo">' +
+    "<strong>" + escaparHtml(item.name) + "</strong>" +
+    '<span class="tag">' + escaparHtml(item.category || "Outros") + "</span>" +
+    '<p class="card-end">' + escaparHtml(local) + escaparHtml(distancia) + "</p>" +
+    "</div></article>"
   );
 }
 

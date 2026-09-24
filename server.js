@@ -218,12 +218,12 @@ app.get("/restaurants", autenticarOpcional, async (req, res) => {
     restaurantes = restaurantes.map(function (item) {
       return {
         id: item.id,
-        name: item.name,
-        category: item.category,
+        name: textoSeguro(item.name) || "Restaurante",
+        category: textoSeguro(item.category),
         rating: item.rating == null ? 0 : Number(item.rating),
-        endereco: item.endereco,
-        cidade: item.cidade,
-        bairro: item.bairro,
+        endereco: textoSeguro(item.endereco),
+        cidade: textoSeguro(item.cidade),
+        bairro: textoSeguro(item.bairro),
         latitude: item.latitude,
         longitude: item.longitude,
         userId: item.userId

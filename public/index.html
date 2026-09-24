@@ -26,24 +26,40 @@
   </header>
 
   <main class="conteudo">
-    <section class="faixa">
+    <section class="hero">
       <div>
-        <h2>Catálogo</h2>
-        <p>Veja todos os restaurantes cadastrados. Use o menu Buscar para filtrar por nota e proximidade.</p>
+        <small>Olá, <span id="nome-hero">usuário</span></small>
+        <h2>O que vamos comer hoje?</h2>
+        <div class="busca-caixa">
+          <input class="busca-topo" id="campo-busca" type="search" placeholder="Buscar por nome, categoria ou bairro...">
+        </div>
       </div>
-      <span class="chip" id="total-restaurantes">Carregando catálogo...</span>
+      <div class="hero-lado">
+        <div class="stats">
+          <div class="stat"><strong id="stat-qtd">0</strong><span>restaurantes</span></div>
+          <div class="stat"><strong id="stat-nota">0</strong><span>nota média</span></div>
+          <div class="stat"><strong id="stat-cidades">0</strong><span>cidades</span></div>
+        </div>
+        <a class="botao-hero" href="/novo-restaurante.html">+ Cadastrar restaurante</a>
+      </div>
     </section>
 
     <section class="aviso" id="aviso" hidden></section>
 
-    <section id="lista" class="painel">
-      <div class="painel-cabecalho">
-        <h2>Restaurantes</h2>
-        <button type="button" id="botao-atualizar" class="botao-secundario">Atualizar</button>
+    <div class="filtros-linha">
+      <div class="chips" id="chips-categorias"></div>
+      <div>
+        <select class="select-escuro" id="ordenar">
+          <option value="melhor">Melhor avaliados</option>
+          <option value="nome">Nome</option>
+        </select>
+        <button type="button" class="botao-icone" id="botao-atualizar" title="Atualizar">↻</button>
       </div>
-      <div class="lista-cards" id="lista-restaurantes">
-        <p class="vazio">Carregando...</p>
-      </div>
+    </div>
+
+    <h2 class="titulo-lista" id="titulo-lista">Todos os restaurantes</h2>
+    <section class="grade-cards" id="lista-restaurantes">
+      <p class="vazio">Carregando...</p>
     </section>
   </main>
 

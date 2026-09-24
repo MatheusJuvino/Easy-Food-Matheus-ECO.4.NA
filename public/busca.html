@@ -26,49 +26,38 @@
   </header>
 
   <main class="conteudo">
-    <section class="faixa">
+    <section class="hero">
       <div>
-        <h2>Buscar restaurantes</h2>
-        <p>Filtre por avaliação e, se quiser, mostre primeiro os mais próximos do seu endereço.</p>
-      </div>
-    </section>
-
-    <section class="aviso" id="aviso" hidden></section>
-
-    <div class="grade">
-      <section class="painel">
-        <h2>Resultado</h2>
-        <p class="ajuda">Exemplo: nota entre 3 e 5, ordenado pelos mais próximos.</p>
-        <div class="lista-cards" id="lista-restaurantes">
-          <p class="vazio">Faça uma busca para ver os restaurantes.</p>
+        <small>Busca avançada</small>
+        <h2>Os mais próximos e bem avaliados</h2>
+        <div class="busca-caixa">
+          <input class="busca-topo" id="campo-busca" type="search" placeholder="Buscar por nome, categoria ou bairro...">
         </div>
-      </section>
-
-      <section class="painel painel-form">
-        <h2>Filtros</h2>
+      </div>
+      <div class="hero-lado">
         <form id="form-busca">
           <div class="form-linha">
-            <label>
-              Nota mínima
-              <input type="number" name="minRating" min="0" max="5" step="0.1" value="3">
-            </label>
-            <label>
-              Nota máxima
-              <input type="number" name="maxRating" min="0" max="5" step="0.1" value="5">
-            </label>
+            <label>Nota mínima <input type="number" name="minRating" min="0" max="5" step="0.1" value="3"></label>
+            <label>Nota máxima <input type="number" name="maxRating" min="0" max="5" step="0.1" value="5"></label>
           </div>
           <label>
             Ordenar
             <select name="ordenar">
+              <option value="melhor">Melhor avaliados</option>
               <option value="proximidade">Mais próximos de mim</option>
-              <option value="todos">Somente filtrar a nota</option>
             </select>
           </label>
-          <p class="ajuda">Para a busca por proximidade, cadastre seu endereço em <a href="/perfil.html">Meu endereço</a>.</p>
+          <p class="ajuda">A proximidade usa o endereço de <a href="/perfil.html">Meu endereço</a>.</p>
           <button type="submit" class="botao-principal">Buscar</button>
         </form>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <section class="aviso" id="aviso" hidden></section>
+    <h2 class="titulo-lista">Resultado</h2>
+    <section class="grade-cards" id="lista-restaurantes">
+      <p class="vazio">Faça uma busca para ver os restaurantes.</p>
+    </section>
   </main>
 
   <footer class="rodape">
