@@ -1,22 +1,19 @@
-const API = "/restaurants";
+exigirLogin();
 
+const API = "/restaurants";
 const aviso = document.getElementById("aviso");
 const tabela = document.getElementById("tabela-restaurantes");
 const form = document.getElementById("form-restaurante");
 const botaoAtualizar = document.getElementById("botao-atualizar");
+const botaoSair = document.getElementById("botao-sair");
+const nomeUsuario = document.getElementById("nome-usuario");
 
-function mostrarAviso(texto, tipo) {
-  aviso.hidden = false;
-  aviso.className = "aviso " + tipo;
-  aviso.textContent = texto;
+const usuario = obterUsuario();
+if (usuario && nomeUsuario) {
+  nomeUsuario.textContent = usuario.name;
 }
 
-function formatarNota(valor) {
-  if (valor === null || valor === undefined || valor === "") {
-    return "-";
-  }
-  return Number(valor).toFixed(1);
-}
+botaoSair.addEventListener("click", sair);
 
 async function carregarRestaurantes() {
   tabela.innerHTML = '<tr><td colspan="4">Carregando...</td></tr>';
@@ -48,12 +45,25 @@ async function carregarRestaurantes() {
       .join("");
   } catch (erro) {
     tabela.innerHTML = '<tr><td class="vazio" colspan="4">Erro ao buscar restaurantes.</td></tr>';
-    mostrarAviso(erro.message, "erro");
+    mostrarAviso(aviso, erro.message, "erro");
   }
+}
+
+function formatarNota(valor) {
+  if (valor === null || valor === undefined || valor === "") {
+    return "-";
+  }
+  return Number(valor).toFixed(1);
 }
 
 form.addEventListener("submit", async function (evento) {
   evento.preventDefault();
+
+  if (!obterToken()) {
+    mostrarAviso(aviso, "Faça login para cadastrar restaurantes.", "erro");
+    window.location.href = "/login.html";
+    return;
+  }
 
   const dados = new FormData(form);
   const ratingInformado = dados.get("rating");
@@ -65,31 +75,36 @@ form.addEventListener("submit", async function (evento) {
   };
 
   if (!corpo.name || !corpo.category) {
-    mostrarAviso("Nome e categoria são obrigatórios.", "erro");
+    mostrarAviso(aviso, "Nome e categoria são obrigatórios.", "erro");
     return;
   }
 
   try {
     const resposta = await fetch(API, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: headersComToken(),
       body: JSON.stringify(corpo)
     });
 
     const json = await resposta.json();
+
+    if (resposta.status === 401) {
+      mostrarAviso(aviso, json.error || "Faça login para cadastrar restaurantes.", "erro");
+      sair();
+      return;
+    }
 
     if (!resposta.ok) {
       throw new Error(json.error || "Não foi possível cadastrar o restaurante.");
     }
 
     form.reset();
-    mostrarAviso('Restaurante "' + json.name + '" cadastrado com sucesso.', "sucesso");
+    mostrarAviso(aviso, 'Restaurante "' + json.name + '" cadastrado com sucesso.', "sucesso");
     carregarRestaurantes();
   } catch (erro) {
-    mostrarAviso(erro.message, "erro");
+    mostrarAviso(aviso, erro.message, "erro");
   }
 });
 
 botaoAtualizar.addEventListener("click", carregarRestaurantes);
-
 carregarRestaurantes();

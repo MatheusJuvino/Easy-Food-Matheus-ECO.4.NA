@@ -63,8 +63,23 @@ body {
   border-radius: 6px;
 }
 
-.topo-nav a:hover {
+.topo-nav a:hover,
+.botao-sair:hover {
   background: rgba(255, 255, 255, 0.12);
+}
+
+.botao-sair {
+  font: inherit;
+  cursor: pointer;
+  color: #f7f3ea;
+  background: transparent;
+  border: 1px solid rgba(247, 243, 234, 0.35);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.conteudo-auth {
+  max-width: 480px;
 }
 
 .conteudo {

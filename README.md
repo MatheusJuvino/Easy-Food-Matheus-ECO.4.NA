@@ -6,14 +6,23 @@ Autor: Matheus Juvino
 
 ## O que o sistema faz
 
-- Lista restaurantes cadastrados
-- Permite cadastrar um novo restaurante (nome, categoria e avaliação)
-- Grava os dados no PostgreSQL usando Prisma
+- Cadastro de usuário (a senha é gravada com hash bcrypt, nunca em texto puro)
+- Login com geração de JWT
+- Listagem de restaurantes
+- Cadastro de restaurante **somente após o login**
+
+## Fluxo
+
+1. Criar conta em `/cadastro.html`
+2. Fazer login em `/login.html`
+3. Receber o JWT
+4. Acessar a área autenticada e cadastrar restaurantes
 
 ## Tecnologias
 
 - Backend: Node.js, Express, Prisma
 - Banco: PostgreSQL
+- Autenticação: bcryptjs (hash da senha) e JWT (sessão)
 - Frontend: HTML, CSS e JavaScript (pasta `public`)
 
 ## Como executar
@@ -25,9 +34,12 @@ npm install
 npx prisma generate
 ```
 
-2. Configure o arquivo `.env` com a variável `DATABASE_URL` apontando para o PostgreSQL.
+2. Copie `.env.example` para `.env` e preencha:
 
-3. Aplique as migrations (se o banco ainda não tiver a tabela):
+- `DATABASE_URL` do PostgreSQL
+- `JWT_SECRET` com um texto longo e secreto (não compartilhe)
+
+3. Aplique as migrations:
 
 ```
 npx prisma migrate deploy
@@ -39,14 +51,17 @@ npx prisma migrate deploy
 npm start
 ```
 
-5. Abra no navegador: `http://localhost:3000`
+5. Abra no navegador: `http://localhost:3000` (a tela inicial redireciona para o login)
 
 ## API
 
-| Método | Rota            | Função                 |
-|--------|-----------------|------------------------|
-| GET    | `/restaurants`  | Lista os restaurantes  |
-| POST   | `/restaurants`  | Cadastra restaurante   |
+| Método | Rota            | Autenticação | Função                |
+|--------|-----------------|--------------|-----------------------|
+| POST   | `/register`     | Não          | Cadastra usuário      |
+| POST   | `/login`        | Não          | Login e retorno do JWT|
+| GET    | `/restaurants`  | Não          | Lista restaurantes    |
+| POST   | `/restaurants`  | JWT          | Cadastra restaurante  |
 
-Campos do cadastro: `name`, `category` e `rating` (opcional; padrão 0).
-Nome e categoria são obrigatórios.
+O cadastro de restaurante envia o header:
+
+`Authorization: Bearer SEU_TOKEN`

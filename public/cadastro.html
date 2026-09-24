@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFood — Cadastro</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-marca">
+      <span class="logo">EF</span>
+      <div>
+        <h1>EasyFood</h1>
+        <p>Crie sua conta</p>
+      </div>
+    </div>
+    <nav class="topo-nav">
+      <a href="/login.html">Entrar</a>
+    </nav>
+  </header>
+
+  <main class="conteudo conteudo-auth">
+    <section class="aviso" id="aviso" hidden></section>
+    <section class="painel painel-form">
+      <h2>Cadastro de usuário</h2>
+      <p class="ajuda">Depois de criar a conta, faça login para cadastrar restaurantes.</p>
+      <form id="form-cadastro">
+        <label>
+          Nome
+          <input type="text" name="name" maxlength="150" required placeholder="Seu nome">
+        </label>
+        <label>
+          E-mail
+          <input type="email" name="email" maxlength="150" required placeholder="seuemail@exemplo.com">
+        </label>
+        <label>
+          Senha
+          <input type="password" name="password" minlength="6" required placeholder="Mínimo 6 caracteres">
+        </label>
+        <button type="submit" class="botao-principal">Criar conta</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>EasyFood — projeto acadêmico de Matheus Juvino</p>
+  </footer>
+
+  <script src="/js/sessao.js"></script>
+  <script src="/js/cadastro.js"></script>
+</body>
+</html>

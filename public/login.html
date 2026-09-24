@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFood — Login</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-marca">
+      <span class="logo">EF</span>
+      <div>
+        <h1>EasyFood</h1>
+        <p>Acesse sua conta</p>
+      </div>
+    </div>
+    <nav class="topo-nav">
+      <a href="/cadastro.html">Criar conta</a>
+    </nav>
+  </header>
+
+  <main class="conteudo conteudo-auth">
+    <section class="aviso" id="aviso" hidden></section>
+    <section class="painel painel-form">
+      <h2>Login</h2>
+      <p class="ajuda">Entre com o e-mail e a senha cadastrados.</p>
+      <form id="form-login">
+        <label>
+          E-mail
+          <input type="email" name="email" required placeholder="seuemail@exemplo.com">
+        </label>
+        <label>
+          Senha
+          <input type="password" name="password" required>
+        </label>
+        <button type="submit" class="botao-principal">Entrar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>EasyFood — projeto acadêmico de Matheus Juvino</p>
+  </footer>
+
+  <script src="/js/sessao.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>
