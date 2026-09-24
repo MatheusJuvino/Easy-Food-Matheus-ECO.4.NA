@@ -73,9 +73,44 @@ body {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.topo-nav a:hover,
-.botao-sair:hover {
-  background: rgba(255, 255, 255, 0.16);
+.topo-nav a.ativo {
+  background: #d97941;
+  border-color: #d97941;
+}
+
+.conteudo-estreito {
+  max-width: 720px;
+}
+
+.form-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+select {
+  font: inherit;
+  padding: 11px 12px;
+  border: 1px solid #d2c4ae;
+  border-radius: 10px;
+  background: #fff;
+}
+
+select:focus {
+  outline: 2px solid #1f4e5f;
+  border-color: #1f4e5f;
+}
+
+.ajuda a {
+  color: #1f4e5f;
+  font-weight: 650;
+}
+
+.nota-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
 .botao-sair {
@@ -346,7 +381,7 @@ input:focus {
     order: -1;
   }
 
-  .painel-auth-texto {
-    order: -1;
+  .form-linha {
+    grid-template-columns: 1fr;
   }
 }

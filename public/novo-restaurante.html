@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFood — Novo restaurante</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script>
+    if (!localStorage.getItem("easyfood_token")) {
+      window.location.replace("/login.html");
+    }
+  </script>
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-marca">
+      <span class="logo">EF</span>
+      <div>
+        <h1>EasyFood</h1>
+        <p>Olá, <span id="nome-usuario">usuário</span></p>
+      </div>
+    </div>
+    <nav class="topo-nav" id="menu-principal"></nav>
+  </header>
+
+  <main class="conteudo conteudo-estreito">
+    <section class="faixa">
+      <div>
+        <h2>Novo restaurante</h2>
+        <p>Cadastre um restaurante com endereço fictício. A avaliação vai de 0 a 5 estrelas.</p>
+      </div>
+    </section>
+
+    <section class="aviso" id="aviso" hidden></section>
+
+    <section class="painel painel-form">
+      <form id="form-restaurante">
+        <label>
+          Nome
+          <input type="text" name="name" maxlength="150" required placeholder="Ex.: Cantina do Campus">
+        </label>
+        <label>
+          Categoria
+          <input type="text" name="category" maxlength="100" required placeholder="Ex.: Italiana">
+        </label>
+        <label>
+          Avaliação (0 a 5)
+          <input type="number" name="rating" min="0" max="5" step="0.1" placeholder="4.5">
+        </label>
+        <label>
+          Endereço fictício
+          <input type="text" name="endereco" required placeholder="Rua das Flores, 100">
+        </label>
+        <div class="form-linha">
+          <label>
+            Cidade
+            <select name="cidade" required></select>
+          </label>
+          <label>
+            Bairro
+            <select name="bairro" required></select>
+          </label>
+        </div>
+        <input type="hidden" name="latitude">
+        <input type="hidden" name="longitude">
+        <button type="submit" class="botao-principal">Salvar restaurante</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>EasyFood — projeto acadêmico de Matheus Juvino</p>
+  </footer>
+
+  <script src="/js/sessao.js"></script>
+  <script src="/js/locais.js"></script>
+  <script src="/js/restaurante.js"></script>
+</body>
+</html>

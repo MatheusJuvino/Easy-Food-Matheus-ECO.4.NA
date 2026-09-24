@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFood — Meu endereço</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script>
+    if (!localStorage.getItem("easyfood_token")) {
+      window.location.replace("/login.html");
+    }
+  </script>
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-marca">
+      <span class="logo">EF</span>
+      <div>
+        <h1>EasyFood</h1>
+        <p>Olá, <span id="nome-usuario">usuário</span></p>
+      </div>
+    </div>
+    <nav class="topo-nav" id="menu-principal"></nav>
+  </header>
+
+  <main class="conteudo conteudo-estreito">
+    <section class="faixa">
+      <div>
+        <h2>Meu endereço</h2>
+        <p>Informe um endereço fictício. Ele será usado para encontrar restaurantes mais próximos.</p>
+      </div>
+    </section>
+
+    <section class="aviso" id="aviso" hidden></section>
+
+    <section class="painel painel-form">
+      <form id="form-perfil">
+        <label>
+          Nome
+          <input type="text" name="name" maxlength="150" required>
+        </label>
+        <label>
+          Endereço fictício
+          <input type="text" name="endereco" required placeholder="Rua Exemplo, 50">
+        </label>
+        <div class="form-linha">
+          <label>
+            Cidade
+            <select name="cidade" required></select>
+          </label>
+          <label>
+            Bairro
+            <select name="bairro" required></select>
+          </label>
+        </div>
+        <input type="hidden" name="latitude">
+        <input type="hidden" name="longitude">
+        <button type="submit" class="botao-principal">Salvar endereço</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>EasyFood — projeto acadêmico de Matheus Juvino</p>
+  </footer>
+
+  <script src="/js/sessao.js"></script>
+  <script src="/js/locais.js"></script>
+  <script src="/js/perfil.js"></script>
+</body>
+</html>

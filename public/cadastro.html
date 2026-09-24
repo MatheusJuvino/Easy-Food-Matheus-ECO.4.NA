@@ -15,9 +15,7 @@
         <p>Catálogo de restaurantes</p>
       </div>
     </div>
-    <nav class="topo-nav">
-      <a href="/login.html">Entrar</a>
-    </nav>
+    <nav class="topo-nav" id="menu-principal"></nav>
   </header>
 
   <main class="conteudo conteudo-auth">
@@ -28,14 +26,14 @@
       <p>A senha é protegida com hash. Depois do login, você recebe um JWT e pode cadastrar restaurantes.</p>
       <div class="lista-destaques">
         <span>Nome, e-mail e senha</span>
-        <span>Conta única por e-mail</span>
+        <span>Endereço fictício para busca</span>
         <span>Acesso só depois do login</span>
       </div>
     </aside>
 
     <section class="painel painel-form">
       <h2>Criar conta</h2>
-      <p class="ajuda">Depois de criar a conta, faça login para continuar.</p>
+      <p class="ajuda">Depois de criar a conta, faça login. O endereço fictício serve para achar restaurantes próximos.</p>
       <form id="form-cadastro">
         <label>
           Nome
@@ -49,6 +47,22 @@
           Senha
           <input type="password" name="password" minlength="6" required placeholder="Mínimo 6 caracteres">
         </label>
+        <label>
+          Endereço fictício
+          <input type="text" name="endereco" required placeholder="Rua Exemplo, 50">
+        </label>
+        <div class="form-linha">
+          <label>
+            Cidade
+            <select name="cidade" required></select>
+          </label>
+          <label>
+            Bairro
+            <select name="bairro" required></select>
+          </label>
+        </div>
+        <input type="hidden" name="latitude">
+        <input type="hidden" name="longitude">
         <button type="submit" class="botao-principal">Criar conta</button>
       </form>
     </section>
@@ -59,6 +73,7 @@
   </footer>
 
   <script src="/js/sessao.js"></script>
+  <script src="/js/locais.js"></script>
   <script src="/js/cadastro.js"></script>
 </body>
 </html>

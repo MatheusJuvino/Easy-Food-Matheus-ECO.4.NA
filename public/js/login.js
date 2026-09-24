@@ -1,3 +1,5 @@
+montarMenu("login");
+
 const form = document.getElementById("form-login");
 const aviso = document.getElementById("aviso");
 

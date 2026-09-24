@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EasyFood — Catálogo de restaurantes</title>
+  <title>EasyFood — Catálogo</title>
   <link rel="stylesheet" href="/css/estilo.css">
   <script>
     if (!localStorage.getItem("easyfood_token")) {
@@ -20,55 +20,29 @@
         <p>Olá, <span id="nome-usuario">usuário</span></p>
       </div>
     </div>
-    <nav class="topo-nav">
-      <a href="#lista">Restaurantes</a>
-      <a href="#cadastro">Novo cadastro</a>
-      <button type="button" id="botao-sair" class="botao-sair">Sair</button>
-    </nav>
+    <nav class="topo-nav" id="menu-principal"></nav>
   </header>
 
   <main class="conteudo">
     <section class="faixa">
       <div>
-        <h2>Área autenticada</h2>
-        <p>Aqui você consulta o catálogo e cadastra novos restaurantes.</p>
+        <h2>Catálogo</h2>
+        <p>Veja todos os restaurantes cadastrados. Use o menu Buscar para filtrar por nota e proximidade.</p>
       </div>
       <span class="chip" id="total-restaurantes">Carregando catálogo...</span>
     </section>
 
     <section class="aviso" id="aviso" hidden></section>
 
-    <div class="grade">
-      <section id="lista" class="painel">
-        <div class="painel-cabecalho">
-          <h2>Restaurantes cadastrados</h2>
-          <button type="button" id="botao-atualizar" class="botao-secundario">Atualizar</button>
-        </div>
-        <div class="lista-cards" id="tabela-restaurantes">
-          <p class="vazio">Carregando...</p>
-        </div>
-      </section>
-
-      <section id="cadastro" class="painel painel-form">
-        <h2>Novo restaurante</h2>
-        <p class="ajuda">Nome e categoria são obrigatórios. A avaliação é opcional (0 a 9,9).</p>
-        <form id="form-restaurante">
-          <label>
-            Nome
-            <input type="text" name="name" maxlength="150" required placeholder="Ex.: Cantina do Campus">
-          </label>
-          <label>
-            Categoria
-            <input type="text" name="category" maxlength="100" required placeholder="Ex.: Italiana">
-          </label>
-          <label>
-            Avaliação
-            <input type="number" name="rating" min="0" max="9.9" step="0.1" placeholder="0.0">
-          </label>
-          <button type="submit" class="botao-principal">Salvar restaurante</button>
-        </form>
-      </section>
-    </div>
+    <section id="lista" class="painel">
+      <div class="painel-cabecalho">
+        <h2>Restaurantes</h2>
+        <button type="button" id="botao-atualizar" class="botao-secundario">Atualizar</button>
+      </div>
+      <div class="lista-cards" id="lista-restaurantes">
+        <p class="vazio">Carregando...</p>
+      </div>
+    </section>
   </main>
 
   <footer class="rodape">

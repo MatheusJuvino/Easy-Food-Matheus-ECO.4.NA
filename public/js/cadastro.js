@@ -1,6 +1,9 @@
 const form = document.getElementById("form-cadastro");
 const aviso = document.getElementById("aviso");
 
+montarMenu("cadastro");
+preencherSelectsLocal(form.cidade, form.bairro, form.latitude, form.longitude);
+
 form.addEventListener("submit", async function (evento) {
   evento.preventDefault();
 
@@ -10,9 +13,10 @@ form.addEventListener("submit", async function (evento) {
     email: String(dados.get("email") || "").trim(),
     password: String(dados.get("password") || "")
   };
+  Object.assign(corpo, dadosLocalDoFormulario(form));
 
-  if (!corpo.name || !corpo.email || !corpo.password) {
-    mostrarAviso(aviso, "Preencha nome, e-mail e senha.", "erro");
+  if (!corpo.name || !corpo.email || !corpo.password || !corpo.endereco || !corpo.cidade || !corpo.bairro) {
+    mostrarAviso(aviso, "Preencha os dados da conta e o endereço fictício.", "erro");
     return;
   }
 

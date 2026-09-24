@@ -12,14 +12,24 @@ model User {
   name         String
   email        String       @unique
   passwordHash String
+  endereco     String?
+  cidade       String?
+  bairro       String?
+  latitude     Float?
+  longitude    Float?
   restaurants  Restaurant[]
 }
 
 model Restaurant {
-  id       Int      @id @default(autoincrement())
-  name     String
-  category String?
-  rating   Decimal?
-  userId   Int?
-  user     User?    @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  name      String
+  category  String?
+  rating    Decimal?
+  endereco  String?
+  cidade    String?
+  bairro    String?
+  latitude  Float?
+  longitude Float?
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id])
 }

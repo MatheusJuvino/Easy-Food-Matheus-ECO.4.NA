@@ -24,29 +24,87 @@ function autenticar(req, res, next) {
   const header = req.headers.authorization;
 
   if (!header || !header.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Faça login para cadastrar restaurantes." });
+    return res.status(401).json({ error: "Faça login para continuar." });
   }
 
   const token = header.slice(7);
 
   try {
-    const dados = jwt.verify(token, JWT_SECRET);
-    req.usuario = dados;
+    req.usuario = jwt.verify(token, JWT_SECRET);
     next();
   } catch (error) {
     return res.status(401).json({ error: "Sessão inválida ou expirada. Faça login novamente." });
   }
 }
 
+function autenticarOpcional(req, res, next) {
+  const header = req.headers.authorization;
+  if (header && header.startsWith("Bearer ")) {
+    try {
+      req.usuario = jwt.verify(header.slice(7), JWT_SECRET);
+    } catch (error) {
+      req.usuario = null;
+    }
+  }
+  next();
+}
+
 function emailValido(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// POST — Cadastrar usuário
+function usuarioPublico(usuario) {
+  return {
+    id: usuario.id,
+    name: usuario.name,
+    email: usuario.email,
+    endereco: usuario.endereco,
+    cidade: usuario.cidade,
+    bairro: usuario.bairro,
+    latitude: usuario.latitude,
+    longitude: usuario.longitude
+  };
+}
+
+function lerNota(valor) {
+  if (valor === undefined || valor === null || valor === "") {
+    return 0;
+  }
+  const nota = Number(valor);
+  if (Number.isNaN(nota) || nota < 0 || nota > 5) {
+    return null;
+  }
+  return nota;
+}
+
+function distanciaKm(lat1, lon1, lat2, lon2) {
+  const raio = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  return raio * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
+
+function dadosLocal(body) {
+  return {
+    endereco: String(body.endereco || "").trim() || null,
+    cidade: String(body.cidade || "").trim() || null,
+    bairro: String(body.bairro || "").trim() || null,
+    latitude: body.latitude === "" || body.latitude == null ? null : Number(body.latitude),
+    longitude: body.longitude === "" || body.longitude == null ? null : Number(body.longitude)
+  };
+}
+
 app.post("/register", async (req, res) => {
   const name = String(req.body.name || "").trim();
   const email = String(req.body.email || "").trim().toLowerCase();
   const password = String(req.body.password || "");
+  const local = dadosLocal(req.body);
 
   if (!name || !email || !password) {
     return res.status(400).json({ error: "Nome, e-mail e senha são obrigatórios." });
@@ -67,23 +125,17 @@ app.post("/register", async (req, res) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-
     const usuario = await prisma.user.create({
-      data: { name, email, passwordHash }
+      data: { name, email, passwordHash, ...local }
     });
 
-    res.status(201).json({
-      id: usuario.id,
-      name: usuario.name,
-      email: usuario.email
-    });
+    res.status(201).json(usuarioPublico(usuario));
   } catch (error) {
     console.error("Erro ao cadastrar usuário:", error.message);
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
 
-// POST — Login (gera JWT)
 app.post("/login", async (req, res) => {
   const email = String(req.body.email || "").trim().toLowerCase();
   const password = String(req.body.password || "");
@@ -109,24 +161,111 @@ app.post("/login", async (req, res) => {
       { expiresIn: "8h" }
     );
 
-    res.json({
-      token,
-      user: {
-        id: usuario.id,
-        name: usuario.name,
-        email: usuario.email
-      }
-    });
+    res.json({ token, user: usuarioPublico(usuario) });
   } catch (error) {
     console.error("Erro ao fazer login:", error.message);
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
 
-// GET — Listar restaurantes
-app.get("/restaurants", async (req, res) => {
+app.get("/me", autenticar, async (req, res) => {
   try {
-    const restaurantes = await prisma.restaurant.findMany();
+    const usuario = await prisma.user.findUnique({ where: { id: req.usuario.userId } });
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuário não encontrado." });
+    }
+    res.json(usuarioPublico(usuario));
+  } catch (error) {
+    console.error("Erro ao buscar perfil:", error.message);
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+});
+
+app.put("/me", autenticar, async (req, res) => {
+  const name = String(req.body.name || "").trim();
+  const local = dadosLocal(req.body);
+
+  if (!name) {
+    return res.status(400).json({ error: "O nome é obrigatório." });
+  }
+
+  if (!local.cidade || !local.bairro || !local.endereco) {
+    return res.status(400).json({ error: "Informe endereço, cidade e bairro." });
+  }
+
+  try {
+    const usuario = await prisma.user.update({
+      where: { id: req.usuario.userId },
+      data: { name, ...local }
+    });
+    res.json(usuarioPublico(usuario));
+  } catch (error) {
+    console.error("Erro ao atualizar perfil:", error.message);
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+});
+
+app.get("/restaurants", autenticarOpcional, async (req, res) => {
+  try {
+    let restaurantes = await prisma.restaurant.findMany();
+    restaurantes = restaurantes.map(function (item) {
+      return {
+        id: item.id,
+        name: item.name,
+        category: item.category,
+        rating: item.rating == null ? 0 : Number(item.rating),
+        endereco: item.endereco,
+        cidade: item.cidade,
+        bairro: item.bairro,
+        latitude: item.latitude,
+        longitude: item.longitude,
+        userId: item.userId
+      };
+    });
+    const minRating = req.query.minRating === undefined || req.query.minRating === "" ? null : Number(req.query.minRating);
+    const maxRating = req.query.maxRating === undefined || req.query.maxRating === "" ? null : Number(req.query.maxRating);
+
+    if (minRating != null && !Number.isNaN(minRating)) {
+      restaurantes = restaurantes.filter(function (item) {
+        return Number(item.rating || 0) >= minRating;
+      });
+    }
+
+    if (maxRating != null && !Number.isNaN(maxRating)) {
+      restaurantes = restaurantes.filter(function (item) {
+        return Number(item.rating || 0) <= maxRating;
+      });
+    }
+
+    if (req.query.ordenar === "proximidade") {
+      if (!req.usuario) {
+        return res.status(401).json({ error: "Faça login para buscar os restaurantes mais próximos." });
+      }
+
+      const usuario = await prisma.user.findUnique({ where: { id: req.usuario.userId } });
+      if (!usuario || usuario.latitude == null || usuario.longitude == null) {
+        return res.status(400).json({ error: "Cadastre seu endereço em Meu endereço para buscar os mais próximos." });
+      }
+
+      restaurantes = restaurantes
+        .map(function (item) {
+          const copia = Object.assign({}, item);
+          if (item.latitude != null && item.longitude != null) {
+            copia.distanciaKm = Number(
+              distanciaKm(usuario.latitude, usuario.longitude, item.latitude, item.longitude).toFixed(2)
+            );
+          } else {
+            copia.distanciaKm = null;
+          }
+          return copia;
+        })
+        .sort(function (a, b) {
+          if (a.distanciaKm == null) return 1;
+          if (b.distanciaKm == null) return -1;
+          return a.distanciaKm - b.distanciaKm;
+        });
+    }
+
     res.json(restaurantes);
   } catch (error) {
     console.error("Erro ao buscar restaurantes:", error.message);
@@ -134,12 +273,22 @@ app.get("/restaurants", async (req, res) => {
   }
 });
 
-// POST — Cadastrar restaurante (somente autenticado)
 app.post("/restaurants", autenticar, async (req, res) => {
-  const { name, category, rating } = req.body;
+  const name = String(req.body.name || "").trim();
+  const category = String(req.body.category || "").trim();
+  const rating = lerNota(req.body.rating);
+  const local = dadosLocal(req.body);
 
   if (!name || !category) {
     return res.status(400).json({ error: "Nome e categoria são obrigatórios" });
+  }
+
+  if (rating === null) {
+    return res.status(400).json({ error: "A avaliação deve ser um número de 0 a 5." });
+  }
+
+  if (!local.endereco || !local.cidade || !local.bairro) {
+    return res.status(400).json({ error: "Informe endereço, cidade e bairro do restaurante." });
   }
 
   try {
@@ -147,8 +296,9 @@ app.post("/restaurants", autenticar, async (req, res) => {
       data: {
         name,
         category,
-        rating: rating || 0,
-        userId: req.usuario.userId
+        rating,
+        userId: req.usuario.userId,
+        ...local
       }
     });
 

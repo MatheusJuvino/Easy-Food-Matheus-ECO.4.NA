@@ -8,15 +8,17 @@ Autor: Matheus Juvino
 
 - Cadastro de usuário (a senha é gravada com hash bcrypt, nunca em texto puro)
 - Login com geração de JWT
+- Endereço fictício do usuário e do restaurante (cidade e bairro)
 - Listagem de restaurantes
 - Cadastro de restaurante **somente após o login**
+- Busca por faixa de avaliação (0 a 5) e pelos mais próximos
 
 ## Fluxo
 
-1. Criar conta em `/cadastro.html`
+1. Criar conta em `/cadastro.html` (com endereço fictício)
 2. Fazer login em `/login.html`
 3. Receber o JWT
-4. Acessar a área autenticada e cadastrar restaurantes
+4. Usar o menu: Catálogo, Buscar, Novo restaurante, Meu endereço
 
 ## Tecnologias
 
@@ -59,8 +61,12 @@ npm start
 |--------|-----------------|--------------|-----------------------|
 | POST   | `/register`     | Não          | Cadastra usuário      |
 | POST   | `/login`        | Não          | Login e retorno do JWT|
-| GET    | `/restaurants`  | Não          | Lista restaurantes    |
+| GET    | `/me`           | JWT          | Dados e endereço      |
+| PUT    | `/me`           | JWT          | Atualiza endereço     |
+| GET    | `/restaurants`  | Opcional     | Lista/filtra restaurantes |
 | POST   | `/restaurants`  | JWT          | Cadastra restaurante  |
+
+A avaliação vai de 0 a 5. A busca aceita `minRating`, `maxRating` e `ordenar=proximidade`.
 
 O cadastro de restaurante envia o header:
 
