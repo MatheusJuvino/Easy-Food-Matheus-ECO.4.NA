@@ -1,0 +1,229 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f3efe4;
+  color: #1f2a2e;
+  min-height: 100vh;
+}
+
+.topo {
+  background: #1f4e5f;
+  color: #f7f3ea;
+  padding: 16px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.topo-marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: #d97941;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.topo h1 {
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.topo p {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.topo-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.topo-nav a {
+  color: #f7f3ea;
+  text-decoration: none;
+  border: 1px solid rgba(247, 243, 234, 0.35);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.topo-nav a:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.conteudo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+.aviso {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.aviso.sucesso {
+  background: #dcefe4;
+  color: #1d5c3b;
+  border: 1px solid #9fceaf;
+}
+
+.aviso.erro {
+  background: #f8e1dc;
+  color: #8a2b1e;
+  border: 1px solid #e3b0a6;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.painel {
+  background: #fffcf6;
+  border: 1px solid #ddd4c4;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.painel-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-size: 1.15rem;
+}
+
+.ajuda {
+  color: #5b666a;
+  font-size: 0.9rem;
+  margin: 8px 0 16px;
+}
+
+.tabela-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eadfce;
+  font-size: 0.95rem;
+}
+
+th {
+  background: #efe6d6;
+  font-weight: 600;
+}
+
+tr:hover td {
+  background: #f7f1e6;
+}
+
+.vazio {
+  text-align: center;
+  color: #6a7377;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+input {
+  font: inherit;
+  padding: 10px;
+  border: 1px solid #c9bfae;
+  border-radius: 6px;
+  background: #fff;
+}
+
+input:focus {
+  outline: 2px solid #1f4e5f;
+  border-color: #1f4e5f;
+}
+
+.botao-principal,
+.botao-secundario {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+
+.botao-principal {
+  background: #d97941;
+  color: #fff;
+  border: none;
+  font-weight: 650;
+}
+
+.botao-principal:hover {
+  background: #c46832;
+}
+
+.botao-secundario {
+  background: transparent;
+  border: 1px solid #1f4e5f;
+  color: #1f4e5f;
+}
+
+.botao-secundario:hover {
+  background: #e7eef1;
+}
+
+.rodape {
+  text-align: center;
+  padding: 16px;
+  color: #667074;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+  .grade {
+    grid-template-columns: 1fr;
+  }
+
+  .painel-form {
+    order: -1;
+  }
+}

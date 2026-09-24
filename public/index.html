@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFood — Catálogo de restaurantes</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-marca">
+      <span class="logo">EF</span>
+      <div>
+        <h1>EasyFood</h1>
+        <p>Catálogo acadêmico de restaurantes</p>
+      </div>
+    </div>
+    <nav class="topo-nav">
+      <a href="#lista">Restaurantes</a>
+      <a href="#cadastro">Novo cadastro</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    <section class="aviso" id="aviso" hidden></section>
+
+    <div class="grade">
+      <section id="lista" class="painel">
+        <div class="painel-cabecalho">
+          <h2>Restaurantes cadastrados</h2>
+          <button type="button" id="botao-atualizar" class="botao-secundario">Atualizar lista</button>
+        </div>
+        <div class="tabela-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Avaliação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-restaurantes">
+              <tr>
+                <td colspan="4">Carregando...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="cadastro" class="painel painel-form">
+        <h2>Cadastrar restaurante</h2>
+        <p class="ajuda">Nome e categoria são obrigatórios. A avaliação é opcional (0 a 9,9).</p>
+        <form id="form-restaurante">
+          <label>
+            Nome
+            <input type="text" name="name" maxlength="150" required placeholder="Ex.: Cantina do Campus">
+          </label>
+          <label>
+            Categoria
+            <input type="text" name="category" maxlength="100" required placeholder="Ex.: Italiana">
+          </label>
+          <label>
+            Avaliação
+            <input type="number" name="rating" min="0" max="9.9" step="0.1" placeholder="0.0">
+          </label>
+          <button type="submit" class="botao-principal">Salvar restaurante</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>EasyFood — projeto acadêmico de Matheus Juvino</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
