@@ -7,6 +7,7 @@ const form = document.getElementById("form-restaurante");
 const botaoAtualizar = document.getElementById("botao-atualizar");
 const botaoSair = document.getElementById("botao-sair");
 const nomeUsuario = document.getElementById("nome-usuario");
+const totalRestaurantes = document.getElementById("total-restaurantes");
 
 const usuario = obterUsuario();
 if (usuario && nomeUsuario) {
@@ -16,7 +17,7 @@ if (usuario && nomeUsuario) {
 botaoSair.addEventListener("click", sair);
 
 async function carregarRestaurantes() {
-  tabela.innerHTML = '<tr><td colspan="4">Carregando...</td></tr>';
+  tabela.innerHTML = '<p class="vazio">Carregando...</p>';
 
   try {
     const resposta = await fetch(API);
@@ -25,26 +26,29 @@ async function carregarRestaurantes() {
     }
 
     const restaurantes = await resposta.json();
+    if (totalRestaurantes) {
+      const qtd = restaurantes.length;
+      totalRestaurantes.textContent = qtd === 1 ? "1 restaurante" : qtd + " restaurantes";
+    }
 
     if (!restaurantes.length) {
-      tabela.innerHTML = '<tr><td class="vazio" colspan="4">Nenhum restaurante cadastrado ainda.</td></tr>';
+      tabela.innerHTML = '<p class="vazio">Nenhum restaurante cadastrado ainda.</p>';
       return;
     }
 
     tabela.innerHTML = restaurantes
       .map(function (item) {
         return (
-          "<tr>" +
-          "<td>" + item.id + "</td>" +
-          "<td>" + item.name + "</td>" +
-          "<td>" + (item.category || "-") + "</td>" +
-          "<td>" + formatarNota(item.rating) + "</td>" +
-          "</tr>"
+          '<article class="card-restaurante">' +
+          '<span class="card-id">' + item.id + "</span>" +
+          "<div><strong>" + item.name + "</strong><small>" + (item.category || "Sem categoria") + "</small></div>" +
+          '<span class="nota">★ ' + formatarNota(item.rating) + "</span>" +
+          "</article>"
         );
       })
       .join("");
   } catch (erro) {
-    tabela.innerHTML = '<tr><td class="vazio" colspan="4">Erro ao buscar restaurantes.</td></tr>';
+    tabela.innerHTML = '<p class="vazio">Erro ao buscar restaurantes.</p>';
     mostrarAviso(aviso, erro.message, "erro");
   }
 }

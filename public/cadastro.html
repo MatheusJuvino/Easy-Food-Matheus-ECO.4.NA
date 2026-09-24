@@ -12,7 +12,7 @@
       <span class="logo">EF</span>
       <div>
         <h1>EasyFood</h1>
-        <p>Crie sua conta</p>
+        <p>Catálogo de restaurantes</p>
       </div>
     </div>
     <nav class="topo-nav">
@@ -21,10 +21,21 @@
   </header>
 
   <main class="conteudo conteudo-auth">
-    <section class="aviso" id="aviso" hidden></section>
+    <section class="aviso aviso-auth" id="aviso" hidden></section>
+
+    <aside class="painel-auth-texto">
+      <h2>Comece pelo cadastro</h2>
+      <p>A senha é protegida com hash. Depois do login, você recebe um JWT e pode cadastrar restaurantes.</p>
+      <div class="lista-destaques">
+        <span>Nome, e-mail e senha</span>
+        <span>Conta única por e-mail</span>
+        <span>Acesso só depois do login</span>
+      </div>
+    </aside>
+
     <section class="painel painel-form">
-      <h2>Cadastro de usuário</h2>
-      <p class="ajuda">Depois de criar a conta, faça login para cadastrar restaurantes.</p>
+      <h2>Criar conta</h2>
+      <p class="ajuda">Depois de criar a conta, faça login para continuar.</p>
       <form id="form-cadastro">
         <label>
           Nome

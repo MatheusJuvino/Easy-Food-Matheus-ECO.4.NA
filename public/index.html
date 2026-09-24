@@ -28,35 +28,29 @@
   </header>
 
   <main class="conteudo">
+    <section class="faixa">
+      <div>
+        <h2>Área autenticada</h2>
+        <p>Aqui você consulta o catálogo e cadastra novos restaurantes.</p>
+      </div>
+      <span class="chip" id="total-restaurantes">Carregando catálogo...</span>
+    </section>
+
     <section class="aviso" id="aviso" hidden></section>
 
     <div class="grade">
       <section id="lista" class="painel">
         <div class="painel-cabecalho">
           <h2>Restaurantes cadastrados</h2>
-          <button type="button" id="botao-atualizar" class="botao-secundario">Atualizar lista</button>
+          <button type="button" id="botao-atualizar" class="botao-secundario">Atualizar</button>
         </div>
-        <div class="tabela-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Avaliação</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-restaurantes">
-              <tr>
-                <td colspan="4">Carregando...</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="lista-cards" id="tabela-restaurantes">
+          <p class="vazio">Carregando...</p>
         </div>
       </section>
 
       <section id="cadastro" class="painel painel-form">
-        <h2>Cadastrar restaurante</h2>
+        <h2>Novo restaurante</h2>
         <p class="ajuda">Nome e categoria são obrigatórios. A avaliação é opcional (0 a 9,9).</p>
         <form id="form-restaurante">
           <label>

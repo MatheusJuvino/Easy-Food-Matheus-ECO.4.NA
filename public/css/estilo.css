@@ -6,20 +6,25 @@
 
 body {
   font-family: "Segoe UI", Tahoma, sans-serif;
-  background: #f3efe4;
+  background: #f4efe3;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(217, 121, 65, 0.14), transparent 28%),
+    radial-gradient(circle at 88% 8%, rgba(31, 78, 95, 0.12), transparent 26%),
+    linear-gradient(#f4efe3, #efe6d4);
   color: #1f2a2e;
   min-height: 100vh;
 }
 
 .topo {
-  background: #1f4e5f;
+  background: linear-gradient(90deg, #163944, #1f4e5f 55%, #2a667a);
   color: #f7f3ea;
-  padding: 16px 28px;
+  padding: 18px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+  box-shadow: 0 8px 24px rgba(22, 57, 68, 0.22);
 }
 
 .topo-marca {
@@ -29,69 +34,105 @@ body {
 }
 
 .logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: #d97941;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #e8914f, #d97941);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
 }
 
 .topo h1 {
-  font-size: 1.35rem;
-  font-weight: 650;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .topo p {
-  font-size: 0.85rem;
-  opacity: 0.85;
+  font-size: 0.86rem;
+  opacity: 0.88;
 }
 
 .topo-nav {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  align-items: center;
 }
 
-.topo-nav a {
+.topo-nav a,
+.botao-sair {
   color: #f7f3ea;
   text-decoration: none;
-  border: 1px solid rgba(247, 243, 234, 0.35);
-  padding: 8px 12px;
-  border-radius: 6px;
+  border: 1px solid rgba(247, 243, 234, 0.32);
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .topo-nav a:hover,
 .botao-sair:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .botao-sair {
   font: inherit;
   cursor: pointer;
-  color: #f7f3ea;
-  background: transparent;
-  border: 1px solid rgba(247, 243, 234, 0.35);
-  padding: 8px 12px;
-  border-radius: 6px;
-}
-
-.conteudo-auth {
-  max-width: 480px;
 }
 
 .conteudo {
-  max-width: 1100px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 24px 16px 40px;
+  padding: 28px 16px 48px;
+}
+
+.conteudo-auth {
+  max-width: 920px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 22px;
+  align-items: stretch;
+  padding-top: 40px;
+}
+
+.painel-auth-texto {
+  background: linear-gradient(180deg, #1f4e5f, #163944);
+  color: #f7f3ea;
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: 0 16px 32px rgba(22, 57, 68, 0.18);
+}
+
+.painel-auth-texto h2 {
+  font-size: 1.7rem;
+  margin-bottom: 12px;
+}
+
+.painel-auth-texto p {
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+.lista-destaques {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lista-destaques span {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
+  border-radius: 10px;
 }
 
 .aviso {
   margin-bottom: 16px;
   padding: 12px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 0.95rem;
 }
 
@@ -107,18 +148,51 @@ body {
   border: 1px solid #e3b0a6;
 }
 
+.faixa {
+  background: #fffcf6;
+  border: 1px solid #e4d8c4;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  box-shadow: 0 10px 24px rgba(80, 58, 32, 0.06);
+}
+
+.faixa h2 {
+  font-size: 1.25rem;
+}
+
+.faixa p {
+  color: #5b666a;
+  margin-top: 4px;
+}
+
+.chip {
+  align-self: center;
+  background: #efe3d0;
+  color: #6a3d1d;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
 .grade {
   display: grid;
-  grid-template-columns: 1.4fr 0.9fr;
+  grid-template-columns: 1.35fr 0.85fr;
   gap: 18px;
   align-items: start;
 }
 
 .painel {
   background: #fffcf6;
-  border: 1px solid #ddd4c4;
-  border-radius: 10px;
-  padding: 18px;
+  border: 1px solid #e4d8c4;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 28px rgba(80, 58, 32, 0.07);
 }
 
 .painel-cabecalho {
@@ -137,37 +211,62 @@ h2 {
   color: #5b666a;
   font-size: 0.9rem;
   margin: 8px 0 16px;
+  line-height: 1.4;
 }
 
-.tabela-wrap {
-  overflow-x: auto;
+.lista-cards {
+  display: grid;
+  gap: 12px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.card-restaurante {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fffaf1;
+  border: 1px solid #eadfce;
 }
 
-th,
-td {
-  text-align: left;
-  padding: 10px 8px;
-  border-bottom: 1px solid #eadfce;
-  font-size: 0.95rem;
+.card-id {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #1f4e5f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
-th {
-  background: #efe6d6;
-  font-weight: 600;
+.card-restaurante strong {
+  display: block;
 }
 
-tr:hover td {
-  background: #f7f1e6;
+.card-restaurante small {
+  color: #6a7377;
+}
+
+.nota {
+  background: #fff1e4;
+  color: #9a4c18;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 .vazio {
   text-align: center;
   color: #6a7377;
+  padding: 28px 10px;
+  background: #fffaf1;
+  border-radius: 12px;
+  border: 1px dashed #d8cbb6;
 }
 
 form {
@@ -181,14 +280,14 @@ label {
   flex-direction: column;
   gap: 6px;
   font-size: 0.92rem;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 input {
   font: inherit;
-  padding: 10px;
-  border: 1px solid #c9bfae;
-  border-radius: 6px;
+  padding: 11px 12px;
+  border: 1px solid #d2c4ae;
+  border-radius: 10px;
   background: #fff;
 }
 
@@ -201,15 +300,15 @@ input:focus {
 .botao-secundario {
   font: inherit;
   cursor: pointer;
-  border-radius: 6px;
-  padding: 10px 14px;
+  border-radius: 10px;
+  padding: 11px 14px;
 }
 
 .botao-principal {
-  background: #d97941;
+  background: linear-gradient(180deg, #e38a4e, #d97941);
   color: #fff;
   border: none;
-  font-weight: 650;
+  font-weight: 700;
 }
 
 .botao-principal:hover {
@@ -228,17 +327,26 @@ input:focus {
 
 .rodape {
   text-align: center;
-  padding: 16px;
+  padding: 18px 16px 28px;
   color: #667074;
   font-size: 0.85rem;
 }
 
+.aviso-auth {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 860px) {
+  .conteudo-auth,
   .grade {
     grid-template-columns: 1fr;
   }
 
   .painel-form {
+    order: -1;
+  }
+
+  .painel-auth-texto {
     order: -1;
   }
 }
