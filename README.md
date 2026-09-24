@@ -21,7 +21,7 @@ Autor: Matheus Juvino
 ## Tecnologias
 
 - Backend: Node.js, Express, Prisma
-- Banco: PostgreSQL
+- Banco: SQLite (arquivo `dev.db`, gerado na sua máquina)
 - Autenticação: bcryptjs (hash da senha) e JWT (sessão)
 - Frontend: HTML, CSS e JavaScript (pasta `public`)
 
@@ -36,7 +36,7 @@ npx prisma generate
 
 2. Copie `.env.example` para `.env` e preencha:
 
-- `DATABASE_URL` do PostgreSQL
+- `DATABASE_URL` — neste projeto local use `file:./dev.db` (SQLite)
 - `JWT_SECRET` com um texto longo e secreto (não compartilhe)
 
 3. Aplique as migrations:

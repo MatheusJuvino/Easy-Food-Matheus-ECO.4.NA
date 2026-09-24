@@ -3,23 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id           Int          @id @default(autoincrement())
-  name         String       @db.VarChar(150)
-  email        String       @unique @db.VarChar(150)
+  name         String
+  email        String       @unique
   passwordHash String
   restaurants  Restaurant[]
 }
 
 model Restaurant {
   id       Int      @id @default(autoincrement())
-  name     String   @db.VarChar(150)
-  category String?  @db.VarChar(100)
-  rating   Decimal? @db.Decimal(2, 1)
+  name     String
+  category String?
+  rating   Decimal?
   userId   Int?
   user     User?    @relation(fields: [userId], references: [id])
 }

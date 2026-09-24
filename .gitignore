@@ -3,3 +3,6 @@ node_modules
 /generated/prisma
 .DS_Store
 Thumbs.db
+*.db
+*.db-journal
+
