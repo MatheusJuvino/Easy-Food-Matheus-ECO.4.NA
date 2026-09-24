@@ -90,19 +90,26 @@ function distanciaKm(lat1, lon1, lat2, lon2) {
   return raio * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
+function textoSeguro(valor) {
+  return String(valor || "")
+    .replace(/<[^>]*>/g, "")
+    .replace(/[<>]/g, "")
+    .trim();
+}
+
 function dadosLocal(body) {
   return {
-    endereco: String(body.endereco || "").trim() || null,
-    cidade: String(body.cidade || "").trim() || null,
-    bairro: String(body.bairro || "").trim() || null,
+    endereco: textoSeguro(body.endereco) || null,
+    cidade: textoSeguro(body.cidade) || null,
+    bairro: textoSeguro(body.bairro) || null,
     latitude: body.latitude === "" || body.latitude == null ? null : Number(body.latitude),
     longitude: body.longitude === "" || body.longitude == null ? null : Number(body.longitude)
   };
 }
 
 app.post("/register", async (req, res) => {
-  const name = String(req.body.name || "").trim();
-  const email = String(req.body.email || "").trim().toLowerCase();
+  const name = textoSeguro(req.body.name);
+  const email = textoSeguro(req.body.email).toLowerCase();
   const password = String(req.body.password || "");
   const local = dadosLocal(req.body);
 
@@ -182,7 +189,7 @@ app.get("/me", autenticar, async (req, res) => {
 });
 
 app.put("/me", autenticar, async (req, res) => {
-  const name = String(req.body.name || "").trim();
+  const name = textoSeguro(req.body.name);
   const local = dadosLocal(req.body);
 
   if (!name) {
@@ -274,8 +281,8 @@ app.get("/restaurants", autenticarOpcional, async (req, res) => {
 });
 
 app.post("/restaurants", autenticar, async (req, res) => {
-  const name = String(req.body.name || "").trim();
-  const category = String(req.body.category || "").trim();
+  const name = textoSeguro(req.body.name);
+  const category = textoSeguro(req.body.category);
   const rating = lerNota(req.body.rating);
   const local = dadosLocal(req.body);
 

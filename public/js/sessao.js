@@ -78,6 +78,14 @@ function formatarNota(valor) {
   return Number(valor).toFixed(1);
 }
 
+function escaparHtml(texto) {
+  return String(texto == null ? "" : texto)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function cardRestaurante(item) {
   const local = [item.endereco, item.bairro, item.cidade].filter(Boolean).join(" — ") || "Endereço não informado";
   const distancia =
@@ -85,8 +93,10 @@ function cardRestaurante(item) {
 
   return (
     '<article class="card-restaurante">' +
-    '<span class="card-id">' + item.id + "</span>" +
-    "<div><strong>" + item.name + "</strong><small>" + (item.category || "Sem categoria") + " · " + local + "</small>" +
+    '<span class="card-id">' + escaparHtml(item.id) + "</span>" +
+    "<div><strong>" + escaparHtml(item.name) + "</strong><small>" +
+    escaparHtml(item.category || "Sem categoria") + " · " + escaparHtml(local) +
+    "</small>" +
     distancia +
     "</div>" +
     '<span class="nota">★ ' + formatarNota(item.rating) + "</span>" +
