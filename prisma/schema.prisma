@@ -12,6 +12,7 @@ model User {
   name         String
   email        String       @unique
   passwordHash String
+  photo        String?
   endereco     String?
   cidade       String?
   bairro       String?
@@ -25,6 +26,7 @@ model Restaurant {
   name      String
   category  String?
   rating    Decimal?
+  photo     String?
   endereco  String?
   cidade    String?
   bairro    String?
@@ -32,4 +34,15 @@ model Restaurant {
   longitude Float?
   userId    Int?
   user      User?    @relation(fields: [userId], references: [id])
+  dishes    Dish[]
+}
+
+model Dish {
+  id           Int        @id @default(autoincrement())
+  name         String
+  description  String
+  price        Decimal
+  imageUrl     String?
+  restaurantId Int
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
 }

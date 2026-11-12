@@ -1,31 +1,94 @@
 # EasyFood
 
-Projeto acadêmico de Engenharia de Software: catálogo de restaurantes com API em Node.js e interface web própria.
+Sistema de gerenciamento de restaurantes desenvolvido como projeto acadêmico. O EasyFood possui uma API REST para cadastro e consulta de restaurantes, autenticação de usuários com JWT e uma interface web própria.
 
 Autor: Matheus Juvino
 
-## O que o sistema faz
+## Objetivo
 
-- Cadastro de usuário (a senha é gravada com hash bcrypt, nunca em texto puro)
-- Login com geração de JWT
-- Endereço fictício do usuário e do restaurante (cidade e bairro)
-- Listagem de restaurantes
-- Cadastro de restaurante **somente após o login**
-- Busca por faixa de avaliação (0 a 5) e pelos mais próximos
+Desenvolver uma aplicação para gerenciamento de restaurantes, aplicando conceitos de:
 
-## Fluxo
-
-1. Criar conta em `/cadastro.html` (com endereço fictício)
-2. Fazer login em `/login.html`
-3. Receber o JWT
-4. Usar o menu: Catálogo, Buscar, Novo restaurante, Meu endereço
+- API REST
+- Banco de dados
+- Autenticação
+- Arquitetura em camadas
+- Frontend e backend
+- Git e GitHub
 
 ## Tecnologias
 
-- Backend: Node.js, Express, Prisma
-- Banco: SQLite (arquivo `dev.db`, gerado na sua máquina)
-- Autenticação: bcryptjs (hash da senha) e JWT (sessão)
-- Frontend: HTML, CSS e JavaScript (pasta `public`)
+Backend:
+
+- Node.js
+- Express
+- Prisma ORM
+- SQLite (arquivo local `dev.db`, para rodar sem instalar PostgreSQL)
+- JWT
+- bcryptjs
+- dotenv
+- CORS
+- multer e sharp (upload e otimização de imagens)
+
+Frontend (pasta `public`, visual próprio deste projeto):
+
+- HTML5
+- CSS3
+- JavaScript
+
+## Funcionalidades
+
+- Cadastro de usuários
+- Login
+- Autenticação com JWT
+- Listagem de restaurantes
+- Cadastro de restaurantes (protegido)
+- Endereço fictício e busca por proximidade
+- API de pratos e upload de imagens
+- Interface web
+
+## Arquitetura
+
+Requisição → Routes → Controller → Service → Prisma → Banco
+
+```
+easy-food/
+├── docs/adr/
+├── public/          # frontend deste projeto (não substituído)
+├── prisma/
+│   ├── migrations/
+│   ├── schema.prisma
+│   └── seed.js
+├── src/
+│   ├── app.js
+│   ├── database/
+│   └── modules/
+│       ├── auth/
+│       ├── restaurants/
+│       ├── dishes/
+│       └── shared/
+├── .gitignore
+├── package.json
+└── server.js
+```
+
+## Autenticação
+
+A autenticação usa JSON Web Token (JWT).
+
+- POST `/auth/register` e POST `/register` — cadastro de usuário
+- POST `/auth/login` e POST `/login` — login
+- GET `/auth/me` e GET `/me` — usuário autenticado
+- PUT `/me` — atualiza nome e endereço fictício
+- POST `/restaurants` exige token JWT
+
+O frontend atual continua usando `/register`, `/login`, `/me` e `/restaurants`.
+
+## Restaurantes e pratos
+
+- GET `/restaurants` — listar (aceita `minRating`, `maxRating` e `ordenar=proximidade`)
+- POST `/restaurants` — cadastrar (JWT)
+- GET `/restaurants/:id/dishes` — listar pratos
+- POST `/restaurants/:id/dishes` — cadastrar prato (JWT)
 
 ## Como executar
 
@@ -36,10 +99,7 @@ npm install
 npx prisma generate
 ```
 
-2. Copie `.env.example` para `.env` e preencha:
-
-- `DATABASE_URL` — neste projeto local use `file:./dev.db` (SQLite)
-- `JWT_SECRET` com um texto longo e secreto (não compartilhe)
+2. Copie `.env.example` para `.env` e preencha `DATABASE_URL` e `JWT_SECRET`.
 
 3. Aplique as migrations:
 
@@ -47,27 +107,20 @@ npx prisma generate
 npx prisma migrate deploy
 ```
 
-4. Inicie o servidor:
+4. (Opcional) Popular o banco:
+
+```
+node prisma/seed.js
+```
+
+5. Inicie o servidor:
 
 ```
 npm start
 ```
 
-5. Abra no navegador: `http://localhost:3000` (a tela inicial redireciona para o login)
+6. Abra `http://localhost:3000`
 
-## API
+## Documentação
 
-| Método | Rota            | Autenticação | Função                |
-|--------|-----------------|--------------|-----------------------|
-| POST   | `/register`     | Não          | Cadastra usuário      |
-| POST   | `/login`        | Não          | Login e retorno do JWT|
-| GET    | `/me`           | JWT          | Dados e endereço      |
-| PUT    | `/me`           | JWT          | Atualiza endereço     |
-| GET    | `/restaurants`  | Opcional     | Lista/filtra restaurantes |
-| POST   | `/restaurants`  | JWT          | Cadastra restaurante  |
-
-A avaliação vai de 0 a 5. A busca aceita `minRating`, `maxRating` e `ordenar=proximidade`.
-
-O cadastro de restaurante envia o header:
-
-`Authorization: Bearer SEU_TOKEN`
+As decisões de arquitetura estão em `adrs/` e `docs/adr/`.
