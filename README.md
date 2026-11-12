@@ -79,6 +79,7 @@ A autenticação usa JSON Web Token (JWT).
 - POST `/auth/login` e POST `/login` — login
 - GET `/auth/me` e GET `/me` — usuário autenticado
 - PUT `/me` — atualiza nome e endereço fictício
+- POST `/auth/me/image` — foto de perfil (JWT + multer + sharp)
 - POST `/restaurants` exige token JWT
 
 O frontend atual continua usando `/register`, `/login`, `/me` e `/restaurants`.
@@ -87,8 +88,10 @@ O frontend atual continua usando `/register`, `/login`, `/me` e `/restaurants`.
 
 - GET `/restaurants` — listar (aceita `minRating`, `maxRating` e `ordenar=proximidade`)
 - POST `/restaurants` — cadastrar (JWT)
+- GET `/restaurants/:id` — restaurante com cardápio
 - GET `/restaurants/:id/dishes` — listar pratos
 - POST `/restaurants/:id/dishes` — cadastrar prato (JWT)
+- POST `/dishes/:dishId/image` — foto do prato (JWT)
 
 ## Como executar
 

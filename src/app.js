@@ -7,7 +7,7 @@ const authRoutes = require("./modules/auth/auth.routes");
 const dishRoutes = require("./modules/dishes/dish.routes");
 const authController = require("./modules/auth/auth.controller");
 const authenticate = require("./modules/auth/auth.middleware");
-const { handleUploadError, upload } = require("./modules/shared/upload.middleware");
+const { handleUploadError, receberImagem } = require("./modules/shared/upload.middleware");
 
 const app = express();
 
@@ -24,7 +24,8 @@ app.post("/register", authController.register);
 app.post("/login", authController.login);
 app.get("/me", authenticate, authController.me);
 app.put("/me", authenticate, authController.updateMe);
-app.post("/me/photo", authenticate, upload.single("photo"), authController.uploadProfilePhoto);
+app.post("/me/photo", authenticate, receberImagem, authController.uploadProfilePhoto);
+app.post("/me/image", authenticate, receberImagem, authController.uploadProfilePhoto);
 
 app.use(handleUploadError);
 

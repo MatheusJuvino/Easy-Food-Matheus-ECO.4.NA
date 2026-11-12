@@ -1,5 +1,17 @@
 const prisma = require("../../database/prisma");
 const imageService = require("../shared/image.service");
+const { textoSeguro } = require("../shared/safe-text");
+
+function pratoPublico(prato) {
+  return {
+    id: prato.id,
+    name: prato.name,
+    description: prato.description,
+    price: Number(prato.price),
+    imageUrl: prato.imageUrl,
+    restaurantId: prato.restaurantId
+  };
+}
 
 async function createDish(restaurantId, data) {
   const id = Number(restaurantId);
@@ -10,7 +22,10 @@ async function createDish(restaurantId, data) {
     throw error;
   }
 
-  if (!data.name || !data.description || data.price === undefined) {
+  const name = textoSeguro(data.name);
+  const description = textoSeguro(data.description);
+
+  if (!name || !description || data.price === undefined || data.price === "") {
     const error = new Error("Preencha nome, descrição e preço do prato");
     error.statusCode = 400;
     throw error;
@@ -34,14 +49,18 @@ async function createDish(restaurantId, data) {
     throw error;
   }
 
-  return prisma.dish.create({
+  const prato = await prisma.dish.create({
     data: {
-      name: data.name,
-      description: data.description,
+      name,
+      description,
       price,
-      restaurantId: id
+      restaurant: {
+        connect: { id }
+      }
     }
   });
+
+  return pratoPublico(prato);
 }
 
 async function listDishes(restaurantId) {
@@ -63,9 +82,11 @@ async function listDishes(restaurantId) {
     throw error;
   }
 
-  return prisma.dish.findMany({
+  const pratos = await prisma.dish.findMany({
     where: { restaurantId: id }
   });
+
+  return pratos.map(pratoPublico);
 }
 
 async function uploadDishImage(dishId, buffer) {
@@ -89,10 +110,12 @@ async function uploadDishImage(dishId, buffer) {
 
   const imageUrl = await imageService.optimizeImage(buffer, "dishes");
 
-  return prisma.dish.update({
+  const atualizado = await prisma.dish.update({
     where: { id },
     data: { imageUrl }
   });
+
+  return pratoPublico(atualizado);
 }
 
 module.exports = {

@@ -13,6 +13,18 @@ async function list(req, res) {
   }
 }
 
+async function getById(req, res) {
+  try {
+    const restaurant = await restaurantService.getRestaurant(req.params.id);
+    res.json(restaurant);
+  } catch (error) {
+    console.error(error);
+    res.status(error.statusCode || 500).json({
+      error: error.statusCode ? error.message : "Erro interno do servidor"
+    });
+  }
+}
+
 async function create(req, res) {
   const userId = req.user && req.user.id;
 
@@ -73,6 +85,7 @@ async function uploadPhoto(req, res) {
 
 module.exports = {
   list,
+  getById,
   create,
   uploadPhoto
 };

@@ -33,6 +33,15 @@ function headersComToken() {
   return headers;
 }
 
+function headersSomenteToken() {
+  const token = obterToken();
+  const headers = {};
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+  return headers;
+}
+
 function exigirLogin() {
   if (!obterToken()) {
     window.location.href = "/login.html";
@@ -108,6 +117,7 @@ function cardRestaurante(item) {
     item.distanciaKm == null ? "" : " · " + Number(item.distanciaKm).toFixed(1) + " km";
 
   return (
+    '<a class="card-place-link" href="/restaurante.html?id=' + encodeURIComponent(item.id) + '">' +
     '<article class="card-place">' +
     '<div class="card-capa ' + classeCategoria(item.category) + '">' +
     '<span>' + iconeCategoria(item.category) + "</span>" +
@@ -117,7 +127,7 @@ function cardRestaurante(item) {
     "<strong>" + escaparHtml(item.name) + "</strong>" +
     '<span class="tag">' + escaparHtml(item.category || "Outros") + "</span>" +
     '<p class="card-end">' + escaparHtml(local) + escaparHtml(distancia) + "</p>" +
-    "</div></article>"
+    "</div></article></a>"
   );
 }
 

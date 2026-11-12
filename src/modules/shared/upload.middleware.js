@@ -18,6 +18,27 @@ const upload = multer({
   }
 });
 
+function receberImagem(req, res, next) {
+  const handler = upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "photo", maxCount: 1 },
+    { name: "file", maxCount: 1 }
+  ]);
+
+  handler(req, res, function (error) {
+    if (error) {
+      return next(error);
+    }
+
+    const arquivos = req.files || {};
+    req.file =
+      (arquivos.image && arquivos.image[0]) ||
+      (arquivos.photo && arquivos.photo[0]) ||
+      (arquivos.file && arquivos.file[0]);
+    next();
+  });
+}
+
 function handleUploadError(error, req, res, next) {
   if (error instanceof multer.MulterError) {
     if (error.code === "LIMIT_FILE_SIZE") {
@@ -42,5 +63,6 @@ function handleUploadError(error, req, res, next) {
 
 module.exports = {
   upload,
+  receberImagem,
   handleUploadError
 };

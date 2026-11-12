@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFood — Cardápio</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script>
+    if (!localStorage.getItem("easyfood_token")) {
+      window.location.replace("/login.html");
+    }
+  </script>
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-marca">
+      <a class="logo" href="/index.html" title="EasyFood">
+        <img src="/img/logo-cantina.png" alt="Cantina do Campus">
+      </a>
+      <div>
+        <h1>EasyFood</h1>
+        <p>Olá, <span id="nome-usuario">usuário</span></p>
+      </div>
+    </div>
+    <nav class="topo-nav" id="menu-principal"></nav>
+  </header>
+
+  <main class="conteudo conteudo-estreito">
+    <section class="faixa">
+      <div>
+        <h2 id="nome-restaurante">Cardápio</h2>
+        <p id="dados-restaurante">Carregando restaurante...</p>
+      </div>
+    </section>
+
+    <section class="aviso" id="aviso" hidden></section>
+
+    <section class="painel painel-form">
+      <h2>Novo prato</h2>
+      <form id="form-prato">
+        <label>
+          Nome
+          <input type="text" name="name" maxlength="150" required placeholder="Ex.: Pizza margherita">
+        </label>
+        <label>
+          Descrição
+          <input type="text" name="description" maxlength="300" required placeholder="Molho, mussarela e manjericão">
+        </label>
+        <label>
+          Preço
+          <input type="number" name="price" min="0.01" step="0.01" required placeholder="32.90">
+        </label>
+        <button type="submit" class="botao-principal">Cadastrar prato</button>
+      </form>
+    </section>
+
+    <h2 class="titulo-lista">Pratos</h2>
+    <section class="lista-pratos" id="lista-pratos">
+      <p class="vazio">Carregando...</p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>EasyFood — projeto acadêmico de Matheus Juvino</p>
+  </footer>
+
+  <script src="/js/sessao.js"></script>
+  <script src="/js/cardapio.js"></script>
+</body>
+</html>

@@ -66,8 +66,8 @@ async function uploadProfilePhoto(req, res) {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
-      error: "Erro ao atualizar foto de perfil"
+    return res.status(error.statusCode || 500).json({
+      error: error.statusCode ? error.message : "Erro ao atualizar foto de perfil"
     });
   }
 }

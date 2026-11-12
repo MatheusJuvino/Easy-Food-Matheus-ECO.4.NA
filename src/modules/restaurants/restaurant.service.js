@@ -116,6 +116,40 @@ async function createRestaurant(body, userId) {
   return restaurantePublico(restaurant);
 }
 
+async function getRestaurant(id) {
+  const restaurantId = Number(id);
+
+  if (!Number.isInteger(restaurantId) || restaurantId <= 0) {
+    const error = new Error("ID do restaurante inválido");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const restaurant = await prisma.restaurant.findUnique({
+    where: { id: restaurantId },
+    include: { dishes: true }
+  });
+
+  if (!restaurant) {
+    const error = new Error("Restaurante não encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const publico = restaurantePublico(restaurant);
+  publico.dishes = (restaurant.dishes || []).map(function (prato) {
+    return {
+      id: prato.id,
+      name: prato.name,
+      description: prato.description,
+      price: Number(prato.price),
+      imageUrl: prato.imageUrl,
+      restaurantId: prato.restaurantId
+    };
+  });
+  return publico;
+}
+
 async function updateRestaurantPhoto(id, photo) {
   return prisma.restaurant.update({
     where: { id: Number(id) },
@@ -125,6 +159,7 @@ async function updateRestaurantPhoto(id, photo) {
 
 module.exports = {
   listRestaurants,
+  getRestaurant,
   createRestaurant,
   updateRestaurantPhoto
 };

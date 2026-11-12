@@ -36,6 +36,21 @@
     <section class="aviso" id="aviso" hidden></section>
 
     <section class="painel painel-form">
+      <h2>Foto de perfil</h2>
+      <p class="ajuda">JPEG, PNG ou WebP, até 5 MB. A foto fica ligada à sua conta autenticada.</p>
+      <div class="foto-perfil-bloco">
+        <img id="foto-perfil" alt="Foto de perfil" hidden>
+        <form id="form-foto">
+          <label>
+            Imagem
+            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" required>
+          </label>
+          <button type="submit" class="botao-secundario">Enviar foto</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="painel painel-form">
       <form id="form-perfil">
         <label>
           Nome

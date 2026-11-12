@@ -262,6 +262,11 @@ body {
   gap: 14px;
 }
 
+.card-place-link {
+  color: inherit;
+  text-decoration: none;
+}
+
 .card-place {
   background: #151519;
   border: 1px solid #26262e;
@@ -440,6 +445,61 @@ select {
 
 .aviso-auth {
   grid-column: 1 / -1;
+}
+
+.foto-perfil-bloco {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.foto-perfil-bloco img,
+.card-prato img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #111114;
+}
+
+.lista-pratos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-prato {
+  display: flex;
+  gap: 14px;
+  background: #151519;
+  border: 1px solid #26262e;
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.prato-sem-foto {
+  width: 96px;
+  height: 96px;
+  border-radius: 14px;
+  background: #22222a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.preco {
+  color: #ffb070;
+  margin: 6px 0 10px;
+}
+
+.form-foto-prato {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 @media (max-width: 980px) {
